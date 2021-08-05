@@ -1,11 +1,16 @@
 package wagner.jasper.watersporttracker.presentation
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
 import wagner.jasper.watersporttracker.R
 
@@ -28,5 +33,4 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }
