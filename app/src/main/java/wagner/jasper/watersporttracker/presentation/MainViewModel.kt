@@ -10,6 +10,10 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(): ViewModel() {
 
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
+    val currentTime = MutableLiveData("15:32")
+    val totalDistance = MutableLiveData("0.23 NM")
+    val currentSpeed = MutableLiveData("15.2")
+    val currentHeading = MutableLiveData("289°")
 
     fun toggleScreenOrientation() {
         when (screenOrientation.value) {
