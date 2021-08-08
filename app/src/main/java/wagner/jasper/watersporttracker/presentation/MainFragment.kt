@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import wagner.jasper.watersporttracker.databinding.MainFragmentBinding
 
+@InternalCoroutinesApi
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 

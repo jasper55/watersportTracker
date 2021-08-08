@@ -1,13 +1,13 @@
 package wagner.jasper.watersporttracker
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import wagner.jasper.watersporttracker.presentation.MainFragment
 
 private const val LOCATION_PERMISSION_CODE = 1000
@@ -15,6 +15,7 @@ private const val LOCATION_PERMISSION_CODE = 1000
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    @OptIn(InternalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
