@@ -32,7 +32,9 @@ class FetchLocationUpdatesUseCase @Inject constructor(
                 val userLocation = LocationData(
                     latitude = location.latitude,
                     longitude = location.longitude,
-                    bearing = location.bearing
+                    bearing = location.bearing,
+                    timeStamp = location.time,
+                    elapsedTime = location.elapsedRealtimeNanos
                 )
                 offer(userLocation)
             }

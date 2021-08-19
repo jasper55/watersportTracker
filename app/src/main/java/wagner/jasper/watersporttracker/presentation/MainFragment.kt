@@ -24,7 +24,6 @@ class MainFragment : Fragment() {
         dataBinding = MainFragmentBinding.inflate(inflater,container,false)
         dataBinding?.lifecycleOwner = viewLifecycleOwner
         dataBinding?.viewmodel = viewModel
-//        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         return dataBinding?.root
     }
 
