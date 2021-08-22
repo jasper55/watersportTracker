@@ -42,13 +42,12 @@ object LocationProcessor {
     fun getCurrentSpeedInMeters(prevLocation: LocationData, currentLocation: LocationData): Double {
         val distX = prevLocation.lonInMeters() - currentLocation.lonInMeters()
         val distY = prevLocation.latInMeters() - currentLocation.latInMeters()
-        val deltaT = round(
-            (TimeUnit.NANOSECONDS.toMillis(
-                currentLocation.elapsedTime - prevLocation.elapsedTime
-            ) / 1000.0), 2
-        )
+        val deltaT = (TimeUnit.NANOSECONDS.toMillis(
+            currentLocation.elapsedTime - prevLocation.elapsedTime
+        ) / 1000.0)
 
-        return calculateSpeed(distX, distY, deltaT)
+
+        return round(calculateSpeed(distX, distY, deltaT), 1)
     }
 
     private fun calculateSpeed(distX: Double, distY: Double, deltaT: Double): Double {
