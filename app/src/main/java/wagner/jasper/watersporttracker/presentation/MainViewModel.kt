@@ -10,16 +10,10 @@ import kotlinx.coroutines.launch
 import wagner.jasper.watersporttracker.domain.model.LocationData
 import wagner.jasper.watersporttracker.domain.model.ScreenOrientationMode
 import wagner.jasper.watersporttracker.domain.usecase.FetchLocationUpdatesUseCase
-import wagner.jasper.watersporttracker.utils.DistanceUtils.toKnots
-import wagner.jasper.watersporttracker.utils.DistanceUtils.toNauticMiles
 import wagner.jasper.watersporttracker.utils.LocationProcessor.bearingBetweenTwoCoordinates
-import wagner.jasper.watersporttracker.utils.LocationProcessor.distanceBetween
-import wagner.jasper.watersporttracker.utils.LocationProcessor.getCurrentSpeed
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getCurrentSpeedInMeters
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getDistanceInMeters
-import wagner.jasper.watersporttracker.utils.Mathematics.round
 import wagner.jasper.watersporttracker.utils.TimeUtils.toFormattedTime
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @InternalCoroutinesApi
@@ -48,9 +42,10 @@ class MainViewModel @Inject constructor(
                 currentTime.value = location.timeStamp.toFormattedTime()
 
                 prevLocation.value?.let { prevLoc ->
-                    pathLength.value = pathLength.value?.plus(getDistanceInMeters(prevLoc,location))
-                    currentSpeed.value = getCurrentSpeedInMeters(prevLoc,location)
-                    currentHeading.value = bearingBetweenTwoCoordinates(prevLoc,location)
+                    pathLength.value =
+                        pathLength.value?.plus(getDistanceInMeters(prevLoc, location))
+                    currentSpeed.value = getCurrentSpeedInMeters(prevLoc, location)
+                    currentHeading.value = bearingBetweenTwoCoordinates(prevLoc, location)
                 }
             }
         }

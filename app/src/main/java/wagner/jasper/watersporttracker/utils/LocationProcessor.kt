@@ -1,10 +1,7 @@
 package wagner.jasper.watersporttracker.utils
 
-import android.location.Location
 import android.util.Log
 import wagner.jasper.watersporttracker.domain.model.LocationData
-import wagner.jasper.watersporttracker.utils.LocationProcessor.latInMeters
-import wagner.jasper.watersporttracker.utils.LocationProcessor.lonInMeters
 import wagner.jasper.watersporttracker.utils.Mathematics.round
 import wagner.jasper.watersporttracker.utils.Metrics.DEGREE_TO_METER
 import java.util.concurrent.TimeUnit
@@ -45,10 +42,13 @@ object LocationProcessor {
     fun getCurrentSpeedInMeters(prevLocation: LocationData, currentLocation: LocationData): Double {
         val distX = prevLocation.lonInMeters() - currentLocation.lonInMeters()
         val distY = prevLocation.latInMeters() - currentLocation.latInMeters()
-        val deltaT = round((TimeUnit.NANOSECONDS.toMillis(
-            currentLocation.elapsedTime - prevLocation.elapsedTime) / 1000.0),2)
+        val deltaT = round(
+            (TimeUnit.NANOSECONDS.toMillis(
+                currentLocation.elapsedTime - prevLocation.elapsedTime
+            ) / 1000.0), 2
+        )
 
-        return calculateSpeed(distX,distY,deltaT)
+        return calculateSpeed(distX, distY, deltaT)
     }
 
     private fun calculateSpeed(distX: Double, distY: Double, deltaT: Double): Double {
@@ -93,7 +93,7 @@ object LocationProcessor {
         }
         return ((Math.toDegrees(
             atan2(deltaLon, deltaPhi)
-        ) + 360.0) %360).roundToInt()
+        ) + 360.0) % 360).roundToInt()
     }
 }
 
