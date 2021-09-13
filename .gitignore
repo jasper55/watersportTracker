@@ -16,3 +16,5 @@
 local.properties
 .idea/vcs.xml
 .idea/modules/app/watersportTracker.app.iml~
+gradle/wrapper/gradle-wrapper.properties
+.idea/gradle.xml
