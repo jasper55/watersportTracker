@@ -2,5 +2,4 @@
     <string name="app_name">watersportTracker</string>
     <string name="bearing">%d°</string>
     <string name="nautic_miles">%.2f NM</string>
-
 </resources>

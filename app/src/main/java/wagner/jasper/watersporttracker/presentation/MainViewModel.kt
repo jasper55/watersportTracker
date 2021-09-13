@@ -13,6 +13,7 @@ import wagner.jasper.watersporttracker.domain.model.*
 import wagner.jasper.watersporttracker.domain.usecase.FetchLocationUpdatesUseCase
 import wagner.jasper.watersporttracker.utils.CombinedLiveData
 import wagner.jasper.watersporttracker.utils.LocationProcessor.bearingBetweenTwoCoordinates
+import wagner.jasper.watersporttracker.utils.LocationProcessor.formatSpeed
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getCurrentSpeedInMeters
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getDistanceInMeters
 import wagner.jasper.watersporttracker.utils.Mathematics.round
@@ -28,7 +29,7 @@ class MainViewModel @Inject constructor(
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
     private val speed = MutableLiveData(0.0)
     private val pathLengthInMeters = MutableLiveData(0.0)
-    val speedUi = MutableLiveData(0.0)
+    val speedUi = MutableLiveData("0.0")
 
     val speedUnit = MutableLiveData(SpeedUnit.KM_PER_HOUR)
 
@@ -80,7 +81,7 @@ class MainViewModel @Inject constructor(
                 prevLocation.value?.let { prevLoc ->
                     speed.value = getCurrentSpeedInMeters(prevLoc, location)
                     currentHeading.value = bearingBetweenTwoCoordinates(prevLoc, location)
-                    speedUi.value = round((speed.value ?: 0.0) * (speedUnit.value?.factor ?: 1.0),1)
+                    speedUi.value = formatSpeed(speed.value ?: 0.0, speedUnit.value?.factor ?: 1.0)
 
                     if (countDownRunning.value == false) {
                         pathLengthInMeters.value =
