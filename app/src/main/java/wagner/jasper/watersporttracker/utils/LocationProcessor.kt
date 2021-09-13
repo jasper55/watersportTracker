@@ -50,12 +50,8 @@ object LocationProcessor {
         return round(calculateSpeed(distX, distY, deltaT), 1)
     }
 
-    private fun calculateSpeed(distX: Double, distY: Double, deltaT: Double): Double {
-        val dist = sqrt(distX * distX + distY * distY)
-        var speed = dist / deltaT
-
-        return speed
-    }
+    private fun calculateSpeed(distX: Double, distY: Double, deltaT: Double) =
+        sqrt(distX * distX + distY * distY) / deltaT
 
     fun formatSpeed(speed: Double, unitFactor: Double): String {
         var speed = round(speed * unitFactor, 1).toString()
