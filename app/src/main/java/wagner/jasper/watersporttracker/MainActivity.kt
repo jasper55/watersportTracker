@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             navigationBarColor = Color.BLACK
             statusBarColor = Color.BLACK
         }
