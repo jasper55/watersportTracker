@@ -35,6 +35,11 @@ class MainFragment : Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.startCountDown()
+    }
+
     companion object {
         fun newInstance() = MainFragment()
     }

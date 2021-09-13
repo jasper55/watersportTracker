@@ -1,5 +1,6 @@
 package wagner.jasper.watersporttracker.presentation
 
+import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -25,8 +26,9 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
-    private val speed = MutableLiveData(15.2)
+    private val speed = MutableLiveData(0.0)
     private val pathLengthInMeters = MutableLiveData(0.0)
+    val speedUi = MutableLiveData(0.0)
 
     val speedUnit = MutableLiveData(SpeedUnit.KM_PER_HOUR)
 
@@ -40,20 +42,29 @@ class MainViewModel @Inject constructor(
     val pathUi =
         CombinedLiveData(pathLengthInMeters, distanceUnit.map { it.factor }) { data: List<*> ->
             val result = round(
-                (pathLengthInMeters.value)?.times(distanceUnit.value?.factor ?: 1.0) ?: 0.0,1)
+                (pathLengthInMeters.value)?.times(distanceUnit.value?.factor ?: 1.0) ?: 0.0, 1
+            )
             result
         }
 
 
-    val speedUi = CombinedLiveData(speed, speedUnit.map { it.factor }) { data: List<*> ->
-        val speed = (data[0] as? Double)?.times(data[1] as? Double ?: 1.0)
-        round(speed ?: 0.0, 1)
+//    val speedUi = CombinedLiveData(speed, speedUnit.map { it.factor }) { data: List<*> ->
+//        val speed = (data[0] as? Double)?.times(data[1] as? Double ?: 1.0)
+//        round(speed ?: 0.0, 1)
+//    }
 
-    }
     val currentHeading = MutableLiveData(289)
     private val newLocation = MutableLiveData<LocationData>(null)
     private val prevLocation = MutableLiveData<LocationData>(null)
     val currentTime = MutableLiveData(System.currentTimeMillis().toFormattedTime())
+
+    private val countDownTimer = object : CountDownTimer(7000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
+        override fun onFinish() {
+            countDownRunning.value = false
+        }
+    }
+    val countDownRunning = MutableLiveData(true)
 
     init {
         viewModelScope.launch {
@@ -67,13 +78,23 @@ class MainViewModel @Inject constructor(
                 currentTime.value = location.timeStamp.toFormattedTime()
 
                 prevLocation.value?.let { prevLoc ->
-                    pathLengthInMeters.value =
-                        pathLengthInMeters.value?.plus(getDistanceInMeters(prevLoc, location))
                     speed.value = getCurrentSpeedInMeters(prevLoc, location)
                     currentHeading.value = bearingBetweenTwoCoordinates(prevLoc, location)
+                    speedUi.value = round((speed.value ?: 0.0) * (speedUnit.value?.factor ?: 1.0),1)
+
+                    if (countDownRunning.value == false) {
+                        pathLengthInMeters.value =
+                            pathLengthInMeters.value?.plus(getDistanceInMeters(prevLoc, location))
+                    }
                 }
             }
         }
+        countDownTimer.start()
+    }
+
+    fun startCountDown() {
+        countDownRunning.value = true
+        countDownTimer.start()
     }
 
     fun toggleUnit() {
