@@ -2,4 +2,8 @@
     <string name="app_name">watersportTracker</string>
     <string name="bearing">%d°</string>
     <string name="nautic_miles">%.2f NM</string>
+    <string name="initializing_gps">Initializing gps</string>
+    <string name="initializing_gps_1">Initializing gps .</string>
+    <string name="initializing_gps_2">Initializing gps ..</string>
+    <string name="initializing_gps_3">Initializing gps ...</string>
 </resources>

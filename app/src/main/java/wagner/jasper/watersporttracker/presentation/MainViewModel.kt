@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wagner.jasper.watersporttracker.domain.model.*
 import wagner.jasper.watersporttracker.domain.usecase.FetchLocationUpdatesUseCase
-import wagner.jasper.watersporttracker.utils.CombinedLiveData
 import wagner.jasper.watersporttracker.utils.LocationProcessor.bearingBetweenTwoCoordinates
-import wagner.jasper.watersporttracker.utils.LocationProcessor.formatSpeed
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getCurrentSpeedInMeters
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getDistanceInMeters
 import wagner.jasper.watersporttracker.utils.Mathematics.round
@@ -56,10 +54,10 @@ class MainViewModel @Inject constructor(
     private val countDownTimer = object : CountDownTimer(7000, 1000) {
         override fun onTick(millisUntilFinished: Long) {}
         override fun onFinish() {
-            countDownRunning.value = false
+            initializing.value = false
         }
     }
-    val countDownRunning = MutableLiveData(true)
+    val initializing = MutableLiveData(true)
 
     init {
         viewModelScope.launch {
@@ -76,7 +74,7 @@ class MainViewModel @Inject constructor(
                     speed.value = getCurrentSpeedInMeters(prevLoc, location)
                     currentHeading.value = bearingBetweenTwoCoordinates(prevLoc, location)
 
-                    if (countDownRunning.value == false) {
+                    if (initializing.value == false) {
                         pathLengthInMeters.value =
                             pathLengthInMeters.value?.plus(getDistanceInMeters(prevLoc, location))
                     }
@@ -87,7 +85,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun startCountDown() {
-        countDownRunning.value = true
+        initializing.value = true
         countDownTimer.start()
     }
 
