@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
     val speedUi = speed.combineLatest(speedUnit).map {
         round(it.first * it.second.factor,1)
     }
-    
+
     val currentHeading = MutableLiveData(289)
     private val newLocation = MutableLiveData<LocationData>(null)
     private val prevLocation = MutableLiveData<LocationData>(null)
