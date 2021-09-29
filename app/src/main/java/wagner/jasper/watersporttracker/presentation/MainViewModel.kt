@@ -18,6 +18,7 @@ import wagner.jasper.watersporttracker.utils.LocationProcessor.getCurrentSpeedIn
 import wagner.jasper.watersporttracker.utils.LocationProcessor.getDistanceInMeters
 import wagner.jasper.watersporttracker.utils.Mathematics.round
 import wagner.jasper.watersporttracker.utils.TimeUtils.toFormattedTime
+import wagner.jasper.watersporttracker.utils.combineLatest
 import javax.inject.Inject
 
 @InternalCoroutinesApi
@@ -29,7 +30,6 @@ class MainViewModel @Inject constructor(
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
     private val speed = MutableLiveData(0.0)
     private val pathLengthInMeters = MutableLiveData(0.0)
-    val speedUi = MutableLiveData("0.0")
 
     val speedUnit = MutableLiveData(SpeedUnit.KM_PER_HOUR)
 
@@ -40,20 +40,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    val pathUi =
-        CombinedLiveData(pathLengthInMeters, distanceUnit.map { it.factor }) { data: List<*> ->
-            val result = round(
-                (pathLengthInMeters.value)?.times(distanceUnit.value?.factor ?: 1.0) ?: 0.0, 1
-            )
-            result
-        }
+    val pathUi = pathLengthInMeters.combineLatest(distanceUnit).map {
+        round(it.first* it.second.factor,1)
+    }
 
-
-//    val speedUi = CombinedLiveData(speed, speedUnit.map { it.factor }) { data: List<*> ->
-//        val speed = (data[0] as? Double)?.times(data[1] as? Double ?: 1.0)
-//        round(speed ?: 0.0, 1)
-//    }
-
+    val speedUi = speed.combineLatest(speedUnit).map {
+        round(it.first * it.second.factor,1)
+    }
+    
     val currentHeading = MutableLiveData(289)
     private val newLocation = MutableLiveData<LocationData>(null)
     private val prevLocation = MutableLiveData<LocationData>(null)
@@ -81,7 +75,6 @@ class MainViewModel @Inject constructor(
                 prevLocation.value?.let { prevLoc ->
                     speed.value = getCurrentSpeedInMeters(prevLoc, location)
                     currentHeading.value = bearingBetweenTwoCoordinates(prevLoc, location)
-                    speedUi.value = formatSpeed(speed.value ?: 0.0, speedUnit.value?.factor ?: 1.0)
 
                     if (countDownRunning.value == false) {
                         pathLengthInMeters.value =

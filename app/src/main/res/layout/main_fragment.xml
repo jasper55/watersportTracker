@@ -42,7 +42,7 @@
                 android:maxLines="1"
                 android:textStyle="bold|italic"
                 android:onClick="@{() -> viewmodel.toggleUnit()}"
-                android:text="@{viewmodel.speedUi}"
+                android:text="@{viewmodel.speedUi.toString()}"
                 android:textColor="@color/teal_200"
                 android:textSize="300sp"
                 app:autoSizeMaxTextSize="300sp"

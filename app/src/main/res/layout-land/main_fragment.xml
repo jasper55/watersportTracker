@@ -30,7 +30,7 @@
             app:autoSizeMaxTextSize="300sp"
             app:autoSizeMinTextSize="100sp"
             app:autoSizeStepGranularity="1sp"
-            android:text="@{viewmodel.speedUi}"
+            android:text="@{viewmodel.speedUi.toString()}"
             android:onClick="@{() -> viewmodel.toggleUnit()}"
             tools:text="15.2"
             android:textSize="300sp"
