@@ -1,8 +1,6 @@
 package wagner.jasper.watersporttracker.utils
 
-import kotlin.math.atan
 import kotlin.math.pow
-import kotlin.math.sqrt
 
 object Mathematics {
 

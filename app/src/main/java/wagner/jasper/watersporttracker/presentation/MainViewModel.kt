@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
-    val screenOrientationSwitched = MutableLiveData(false)
+    private val screenOrientationSwitched = MutableLiveData(false)
     private val speed = MutableLiveData(0.0)
     private val pathLengthInMeters = MutableLiveData(0.0)
 
