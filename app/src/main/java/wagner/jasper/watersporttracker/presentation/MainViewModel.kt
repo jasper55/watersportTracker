@@ -26,6 +26,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val screenOrientation = MutableLiveData(ScreenOrientationMode.PORTRAIT)
+    val screenOrientationSwitched = MutableLiveData(false)
     private val speed = MutableLiveData(0.0)
     private val pathLengthInMeters = MutableLiveData(0.0)
 
@@ -51,7 +52,7 @@ class MainViewModel @Inject constructor(
     private val prevLocation = MutableLiveData<LocationData>(null)
     val currentTime = MutableLiveData(System.currentTimeMillis().toFormattedTime())
 
-    private val countDownTimer = object : CountDownTimer(7000, 1000) {
+    private val countDownTimer = object : CountDownTimer(10000, 1000) {
         override fun onTick(millisUntilFinished: Long) {}
         override fun onFinish() {
             initializing.value = false
@@ -85,8 +86,12 @@ class MainViewModel @Inject constructor(
     }
 
     fun startCountDown() {
-        initializing.value = true
-        countDownTimer.start()
+        if (screenOrientationSwitched.value == true) {
+            screenOrientationSwitched.value = false
+        } else {
+            initializing.value = true
+            countDownTimer.start()
+        }
     }
 
     fun toggleUnit() {
@@ -94,6 +99,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun toggleScreenOrientation() {
+        screenOrientationSwitched.value = true
         when (screenOrientation.value) {
             ScreenOrientationMode.PORTRAIT -> screenOrientation.value =
                 ScreenOrientationMode.LANDSCAPE

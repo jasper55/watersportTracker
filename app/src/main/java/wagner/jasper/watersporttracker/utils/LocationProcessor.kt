@@ -26,7 +26,7 @@ object LocationProcessor {
     fun LocationData.latInMeters() = this.latitude * DEGREE_TO_METER
 
     fun LocationData.lonInMeters() =
-        40075000 * cos(Math.toRadians(this.latitude)) / 360 * this.latitude
+        40075000 * cos(Math.toRadians(this.latitude)) / 360 * this.longitude
 
     fun degreeToMeters(degree: Double): Double {
         return degree * DEGREE_TO_METER
